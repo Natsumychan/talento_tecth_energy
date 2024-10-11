@@ -45,7 +45,7 @@ public class CountryService {
     }
 
     //Create a country
-    public Country saveCountry(Country countries){
+    public static Country saveCountry(Country countries){
 
     }
 
