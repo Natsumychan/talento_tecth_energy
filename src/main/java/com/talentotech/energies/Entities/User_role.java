@@ -1,27 +1,37 @@
 package com.talentotech.energies.Entities;
 
+import com.talentotech.energies.Entities.enums.UserRol;
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "rol_usuarios")
 public class User_role {
-    private int role_id;
-    private String role_name;
 
-    public User_role(int role_id, String role_name) {
-        this.role_id = role_id;
-        this.role_name = role_name;
+    @Id
+    private int roleId;
+
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private UserRol roleName;
+
+    public User_role(int roleId, UserRol roleName) {
+        this.roleId = roleId;
+        this.roleName = roleName;
     }
 
-    public int getRole_id() {
-        return role_id;
+    public int getRoleId() {
+        return roleId;
     }
 
-    public void setRole_id(int role_id) {
-        this.role_id = role_id;
+    public void setRoleId(int roleId) {
+        this.roleId = roleId;
     }
 
-    public String getRole_name() {
-        return role_name;
+    public UserRol getRoleName() {
+        return roleName;
     }
 
-    public void setRole_name(String role_name) {
-        this.role_name = role_name;
+    public void setRoleName(UserRol roleName) {
+        this.roleName = roleName;
     }
 }

@@ -12,7 +12,7 @@ public class User {
     //Atributes
 
     @Id
-    private String documentoId;
+    private String documentId;
 
     @Column(nullable = false, length = 100)
     private String userName;
@@ -26,28 +26,31 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
-    private UserRol userRole;
+    @JoinColumn(nullable = false)
+    @ManyToOne(targetEntity = User.class)
+    private int roleId;
 
     private Date createAcounteDate;
 
-    public User(String documentoId, String userName, String userLastName, String email, String password, UserRol userRole, Date createAcounteDate) {
-        this.documentoId = documentoId;
+    public User() {
+    }
+
+    public User(String documentId, String userName, String userLastName, String email, String password, int roleId, Date createAcounteDate) {
+        this.documentId = documentId;
         this.userName = userName;
         this.userLastName = userLastName;
         this.email = email;
         this.password = password;
-        this.userRole = userRole;
+        this.roleId = roleId;
         this.createAcounteDate = createAcounteDate;
     }
 
-    public String getUserId() {
-        return documentoId;
+    public String getDocumentId() {
+        return documentId;
     }
 
-    public void setUserId(String userId) {
-        this.documentoId = userId;
+    public void setDocumentId(String documentId) {
+        this.documentId = documentId;
     }
 
     public String getUserName() {
@@ -82,12 +85,12 @@ public class User {
         this.password = password;
     }
 
-    public UserRol getUserRole() {
-        return userRole;
+    public int getRoleId() {
+        return roleId;
     }
 
-    public void setUserRole(UserRol userRole) {
-        this.userRole = userRole;
+    public void setRoleId(int roleId) {
+        this.roleId = roleId;
     }
 
     public Date getCreateAcounteDate() {
@@ -101,12 +104,12 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-                "userId=" + documentoId +
+                "userId=" + documentId +
                 ", userName='" + userName + '\'' +
                 ", userLastName='" + userLastName + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
-                ", userRole='" + userRole + '\'' +
+                ", userRole='" + roleId + '\'' +
                 ", createAcounteDate=" + createAcounteDate +
                 '}';
     }
