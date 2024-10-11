@@ -53,7 +53,7 @@ public class CountryControllers {
     //como hacer el post de country
     @PostMapping
     public ResponseEntity<Country> createCountry(@RequestBody Country countries){
-        Country saveCountry= CountryService.saveCountry(countries);
+        Country saveCountry= countryService.saveCountry(countries);
         return new ResponseEntity<>(saveCountry, HttpStatus.CREATED);
     }
 
