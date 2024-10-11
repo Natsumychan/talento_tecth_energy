@@ -1,19 +1,39 @@
 package com.talentotech.energies.Entities;
 
+import com.talentotech.energies.Entities.enums.UserRol;
+import jakarta.persistence.*;
+
 import java.util.Date;
 
+@Entity
+@Table(name = "usuarios")
 public class User {
+
     //Atributes
-    private int userId;
+
+    @Id
+    private String documentoId;
+
+    @Column(nullable = false, length = 100)
     private String userName;
+
+    @Column(nullable = false, length = 100)
     private String userLastName;
+
+    @Column(nullable = false, unique = true)
     private String email;
+
+    @Column(nullable = false)
     private String password;
-    private String userRole;
+
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private UserRol userRole;
+
     private Date createAcounteDate;
 
-    public User(int userId, String userName, String userLastName, String email, String password, String userRole, Date createAcounteDate) {
-        this.userId = userId;
+    public User(String documentoId, String userName, String userLastName, String email, String password, UserRol userRole, Date createAcounteDate) {
+        this.documentoId = documentoId;
         this.userName = userName;
         this.userLastName = userLastName;
         this.email = email;
@@ -22,12 +42,12 @@ public class User {
         this.createAcounteDate = createAcounteDate;
     }
 
-    public int getUserId() {
-        return userId;
+    public String getUserId() {
+        return documentoId;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setUserId(String userId) {
+        this.documentoId = userId;
     }
 
     public String getUserName() {
@@ -62,11 +82,11 @@ public class User {
         this.password = password;
     }
 
-    public String getUserRole() {
+    public UserRol getUserRole() {
         return userRole;
     }
 
-    public void setUserRole(String userRole) {
+    public void setUserRole(UserRol userRole) {
         this.userRole = userRole;
     }
 
@@ -81,7 +101,7 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-                "userId=" + userId +
+                "userId=" + documentoId +
                 ", userName='" + userName + '\'' +
                 ", userLastName='" + userLastName + '\'' +
                 ", email='" + email + '\'' +

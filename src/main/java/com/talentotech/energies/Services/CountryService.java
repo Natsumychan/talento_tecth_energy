@@ -46,7 +46,7 @@ public class CountryService {
 
     //Create a country
     public Country saveCountry(Country countries){
-
+        return countryRepository.save(countries);
     }
 
 }
