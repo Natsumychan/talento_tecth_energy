@@ -1,8 +1,18 @@
 package com.talentotech.energies.Entities;
 
+import jakarta.persistence.*;
+
+@Entity
 public class Energy {
+    @Id
+    @GeneratedValue( strategy = GenerationType.IDENTITY)
     private int type_energy_id;
+
+    @Column(nullable = false)
     private String energy_name;
+
+    public Energy() {
+    }
 
     public Energy(int type_energy_id, String energy_name) {
         this.type_energy_id = type_energy_id;

@@ -24,7 +24,7 @@ public class CountryControllers {
         return new ResponseEntity<>(countries, HttpStatus.OK);
     }
 
-    //Get country by Id
+    //Get country by ID
     @GetMapping("/{id}")
     public ResponseEntity<Country> getCountryById(@PathVariable int id){
         Optional <Country> countries = countryService.getCountryById(id);
@@ -50,10 +50,10 @@ public class CountryControllers {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    //como hacer el post de country
+    //Create country
     @PostMapping
     public ResponseEntity<Country> createCountry(@RequestBody Country countries){
-        Country saveCountry= CountryService.saveCountry(countries);
+        Country saveCountry= countryService.saveCountry(countries);
         return new ResponseEntity<>(saveCountry, HttpStatus.CREATED);
     }
 

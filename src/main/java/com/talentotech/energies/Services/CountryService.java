@@ -26,7 +26,7 @@ public class CountryService {
 
     //Create or update country
     public Country updateCountryById(int id, Country updatedCountry) {
-        // Check if the Duenio exists
+        // Check if the country exists
         return countryRepository.findById(id).map(existingCountry -> {
             // Update fields
             if (updatedCountry.getCountry_name() != null) {
@@ -45,8 +45,8 @@ public class CountryService {
     }
 
     //Create a country
-    public static Country saveCountry(Country countries){
-
+    public Country saveCountry(Country countries){
+        return countryRepository.save(countries);
     }
 
 }
