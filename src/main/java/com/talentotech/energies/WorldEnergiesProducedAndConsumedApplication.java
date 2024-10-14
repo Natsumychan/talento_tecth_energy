@@ -8,6 +8,7 @@ public class WorldEnergiesProducedAndConsumedApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(WorldEnergiesProducedAndConsumedApplication.class, args);
+		System.out.println("System on!");
 	}
 
 }

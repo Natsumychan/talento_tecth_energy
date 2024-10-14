@@ -1,19 +1,38 @@
 package com.talentotech.energies.Entities;
 
+import jakarta.persistence.*;
+
 import java.math.BigDecimal;
 import java.time.Year;
 
+@Entity
 public class Energy_produced {
+
+    @Id
+    @GeneratedValue( strategy = GenerationType.IDENTITY)
     private int production_id;
-    private int country_id;
-    private int type_energy_id;
+
+    @ManyToOne(targetEntity = Country.class)
+    @JoinColumn(name= "country")
+    private Country country;
+
+    @ManyToOne(targetEntity = Energy.class)
+    @JoinColumn(name= "Energy type")
+    private Energy energy;
+
+    @Column(precision = 30, scale = 5, nullable = false)
     private BigDecimal quantity_produced;
+
+    @Column(nullable = false, columnDefinition = "YEAR")
     private Year production_date;
 
-    public Energy_produced(int production_id, int country_id, int type_energy_id, BigDecimal quantity_produced, Year production_date) {
+    public Energy_produced() {
+    }
+
+    public Energy_produced(int production_id, Country country, Energy energy, BigDecimal quantity_produced, Year production_date) {
         this.production_id = production_id;
-        this.country_id = country_id;
-        this.type_energy_id = type_energy_id;
+        this.country = country;
+        this.energy = energy;
         this.quantity_produced = quantity_produced;
         this.production_date = production_date;
     }
@@ -26,20 +45,20 @@ public class Energy_produced {
         this.production_id = production_id;
     }
 
-    public int getCountry_id() {
-        return country_id;
+    public Country getCountry() {
+        return country;
     }
 
-    public void setCountry_id(int country_id) {
-        this.country_id = country_id;
+    public void setCountry(Country country) {
+        this.country = country;
     }
 
-    public int getType_energy_id() {
-        return type_energy_id;
+    public Energy getEnergy() {
+        return energy;
     }
 
-    public void setType_energy_id(int type_energy_id) {
-        this.type_energy_id = type_energy_id;
+    public void setEnergy(Energy energy) {
+        this.energy = energy;
     }
 
     public BigDecimal getQuantity_produced() {
