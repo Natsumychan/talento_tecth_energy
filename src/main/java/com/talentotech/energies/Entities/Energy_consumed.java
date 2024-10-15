@@ -1,20 +1,39 @@
 package com.talentotech.energies.Entities;
 
+import jakarta.persistence.*;
+
 import java.math.BigDecimal;
 import java.time.Year;
 
+@Entity
 public class Energy_consumed {
+
+    @Id
+    @GeneratedValue( strategy = GenerationType.IDENTITY)
     private int consume_id;
-    private int country_id;
-    private int type_energy_id;
+
+    @ManyToOne(targetEntity = Country.class)
+    @JoinColumn(name= "country")
+    private Country country;
+
+    @ManyToOne(targetEntity = Energy.class)
+    @JoinColumn(name= "Energy type")
+    private Energy energy;
+
+    @Column(precision = 30, scale = 5, nullable = false)
     private BigDecimal quantity_consumed;
+
+    @Column(nullable = false, columnDefinition = "YEAR")
     private Year consume_date;
 
-    public Energy_consumed(int consume_id, int country_id, int type_energy_id, BigDecimal quantity_cosumed, Year consume_date) {
+    public Energy_consumed() {
+    }
+
+    public Energy_consumed(int consume_id, Country country, Energy energy, BigDecimal quantity_consumed, Year consume_date) {
         this.consume_id = consume_id;
-        this.country_id = country_id;
-        this.type_energy_id = type_energy_id;
-        this.quantity_consumed = quantity_cosumed;
+        this.country= country;
+        this.energy = energy;
+        this.quantity_consumed = quantity_consumed;
         this.consume_date = consume_date;
     }
 
@@ -26,28 +45,28 @@ public class Energy_consumed {
         this.consume_id = consume_id;
     }
 
-    public int getCountry_id() {
-        return country_id;
+    public Country getCountry() {
+        return country;
     }
 
-    public void setCountry_id(int country_id) {
-        this.country_id = country_id;
+    public void setCountry(Country country) {
+        this.country = country;
     }
 
-    public int getType_energy_id() {
-        return type_energy_id;
+    public Energy getEnergy() {
+        return energy;
     }
 
-    public void setType_energy_id(int type_energy_id) {
-        this.type_energy_id = type_energy_id;
+    public void setEnergy(Energy energy) {
+        this.energy = energy;
     }
 
-    public BigDecimal getQuantity_cosumed() {
+    public BigDecimal getQuantity_consumed() {
         return quantity_consumed;
     }
 
-    public void setQuantity_cosumed(BigDecimal quantity_cosumed) {
-        this.quantity_consumed = quantity_cosumed;
+    public void setQuantity_consumed(BigDecimal quantity_consumed) {
+        this.quantity_consumed = quantity_consumed;
     }
 
     public Year getConsume_date() {
@@ -62,8 +81,8 @@ public class Energy_consumed {
     public String toString() {
         return "Energy_consumed{" +
                 "consume_id=" + consume_id +
-                ", country_id=" + country_id +
-                ", type_energy_id=" + type_energy_id +
+                ", country_id=" + country +
+                ", type_energy_id=" + energy +
                 ", quantity_cosumed=" + quantity_consumed +
                 ", consume_date=" + consume_date +
                 '}';
