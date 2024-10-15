@@ -1,7 +1,8 @@
 package com.talentotech.energies.Services;
 
+import com.talentotech.energies.DTO.UserRequest;
 import com.talentotech.energies.Entities.User;
-import com.talentotech.energies.Entities.enums.UserRol;
+import com.talentotech.energies.Entities.User_role;
 import com.talentotech.energies.Repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,11 +36,25 @@ public class UserService {
         return userRepository.save(user);
     }
 
+    /*public User createUser(UserRequest userRequest) {
+        User users = userRequest.getUsers();
+        User user = userRepository.findById(userRequest.getUserId()).orElseThrow(() -> new RuntimeException("User not found"));
+        //List<User> user = userRepository.findAllById(userRequest.getUserIds());
+        users.setRoleId(user);
+
+        return userRepository.save(users);
+    }*/
+
+    public User createUser(User user, Optional<User_role> roleId) {
+        roleId.ifPresent(user::setRoleId);
+        return userRepository.save(user);
+    }
+
     // Update user by documentId
-    public User updateUserById(String documentoId, User updateUser) {
+    public User updateUserById(String documentId, User updateUser) {
 
         // Check if user exists
-        return userRepository.findById(documentoId).map(existingUser ->{
+        return userRepository.findById(documentId).map(existingUser ->{
             // if exists update user
             if(updateUser.getUserName() != null) {
                 existingUser.setUserName(updateUser.getUserName());
@@ -59,6 +74,6 @@ public class UserService {
 
             // Save the update user
             return userRepository.save(existingUser);
-        }).orElseThrow(() -> new RuntimeException("User with ID " + documentoId + " not found"));
+        }).orElseThrow(() -> new RuntimeException("User with ID " + documentId + " not found"));
     }
 }

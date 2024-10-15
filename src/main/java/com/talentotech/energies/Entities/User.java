@@ -1,6 +1,6 @@
 package com.talentotech.energies.Entities;
 
-import com.talentotech.energies.Entities.enums.UserRol;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.Date;
@@ -26,16 +26,17 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    @JoinColumn(nullable = false)
-    @ManyToOne(targetEntity = User.class)
-    private int roleId;
+    @ManyToOne(targetEntity = User_role.class)
+    @JoinColumn(name="rol_usuario")
+    @JsonIgnore
+    private User_role roleId;
 
     private Date createAcounteDate;
 
     public User() {
     }
 
-    public User(String documentId, String userName, String userLastName, String email, String password, int roleId, Date createAcounteDate) {
+    public User(String documentId, String userName, String userLastName, String email, String password, User_role roleId, Date createAcounteDate) {
         this.documentId = documentId;
         this.userName = userName;
         this.userLastName = userLastName;
@@ -85,11 +86,11 @@ public class User {
         this.password = password;
     }
 
-    public int getRoleId() {
+    public User_role getRoleId() {
         return roleId;
     }
 
-    public void setRoleId(int roleId) {
+    public void setRoleId(User_role roleId) {
         this.roleId = roleId;
     }
 

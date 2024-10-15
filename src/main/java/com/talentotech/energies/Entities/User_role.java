@@ -3,6 +3,8 @@ package com.talentotech.energies.Entities;
 import com.talentotech.energies.Entities.enums.UserRol;
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "rol_usuarios")
 public class User_role {
@@ -14,12 +16,18 @@ public class User_role {
     @Enumerated(EnumType.STRING)
     private UserRol roleName;
 
+    @OneToMany(targetEntity = User.class, fetch = FetchType.LAZY, mappedBy = "roleId")
+    private List<User> users;
+
+    public User_role() {
+    }
+
     public User_role(int roleId, UserRol roleName) {
         this.roleId = roleId;
         this.roleName = roleName;
     }
 
-    public int getRoleId() {
+    public int getRole() {
         return roleId;
     }
 
