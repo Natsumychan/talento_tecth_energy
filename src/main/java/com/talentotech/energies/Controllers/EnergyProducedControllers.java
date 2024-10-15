@@ -1,7 +1,6 @@
 package com.talentotech.energies.Controllers;
 
 import com.talentotech.energies.DTO.EnergyProduceRequest;
-import com.talentotech.energies.Entities.Country;
 import com.talentotech.energies.Entities.Energy_produced;
 import com.talentotech.energies.Services.EnergyProduceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/energyProduced")
@@ -30,6 +30,13 @@ public class EnergyProducedControllers {
     public ResponseEntity<List<Energy_produced>> getAllEnergiesProduced(){
         List<Energy_produced> energyProducedList= energyProduceService.getAllEnergyProduced();
         return new ResponseEntity<>(energyProducedList, HttpStatus.OK);
+    }
+
+    //Get energy produced by ID
+    @GetMapping("/{id}")
+    public ResponseEntity<Energy_produced> getEnergyProducedById(@PathVariable int id){
+        Optional<Energy_produced> energiesProduced = energyProduceService.getEnergyProducedById(id);
+        return energiesProduced.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     // Filter by type of energy

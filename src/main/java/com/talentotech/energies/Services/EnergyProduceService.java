@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class EnergyProduceService {
@@ -27,7 +28,7 @@ public class EnergyProduceService {
 
     public Energy_produced createEnergyProduced(EnergyProduceRequest energyProduceRequest){
         Energy_produced energyProduced =energyProduceRequest.getEnergyProduced();
-        Country country= countryRepository.findById(energyProduceRequest.getCountryId()).orElseThrow(() -> new RuntimeException("Paseador not found"));
+        Country country= countryRepository.findById(energyProduceRequest.getCountryId()).orElseThrow(() -> new RuntimeException("Country not found"));
 
         Energy energy= energyRepository.findById(energyProduceRequest.getEnergyId()).orElseThrow(() -> new RuntimeException("Type of energy not found"));
 
@@ -39,6 +40,11 @@ public class EnergyProduceService {
     //Gel all energy produced
     public List<Energy_produced> getAllEnergyProduced(){
         return energyProduceRepository.findAll();
+    }
+
+    //Get an energy produced by ID
+    public Optional<Energy_produced> getEnergyProducedById(int id){
+        return energyProduceRepository.findById(id);
     }
 
     // Get energy produced by type of energy
