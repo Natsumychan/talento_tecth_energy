@@ -10,6 +10,7 @@ import java.util.List;
 public class User_role {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int roleId;
 
     @Column(nullable = false)
