@@ -5,6 +5,7 @@ import com.talentotech.energies.Entities.User;
 import com.talentotech.energies.Entities.User_role;
 import com.talentotech.energies.Repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -75,5 +76,17 @@ public class UserService {
             // Save the update user
             return userRepository.save(existingUser);
         }).orElseThrow(() -> new RuntimeException("User with ID " + documentId + " not found"));
+    }
+
+    // Update user rol
+    public User updateUserRol (String documentId, User_role roleId) {
+        Optional<User> optionalUser = userRepository.findById(documentId);
+        if (optionalUser.isPresent()) {
+            User users = optionalUser.get();
+            users.setRoleId(roleId);
+            return userRepository.save(users);
+        } else {
+            throw new RuntimeException("User not found with id" + documentId);
+        }
     }
 }

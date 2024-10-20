@@ -46,4 +46,49 @@ public class UserControllers {
         List<User> users = userService.getAllUsers();
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
+
+    // Get all users
+    @GetMapping("/{documentId}")
+    public ResponseEntity<User> getDocumentById(@PathVariable String documentId) {
+        Optional<User> users = userService.getUserById(documentId);
+        return users.map(ResponseEntity::ok).orElseGet(()->ResponseEntity.notFound().build());
+    }
+
+    // Delete user by Id
+    @DeleteMapping("/{documentId}")
+    public ResponseEntity<Void> deleteUser(@PathVariable String documentId) {
+        userService.deleteUser(documentId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    // Update user by Id
+    @PutMapping ("/{documentId}")
+    public ResponseEntity<User> updateUser(@PathVariable String documentId, @RequestBody User users) {
+        User partialUpdateUser = new User();
+        if (users.getUserName() != null) {
+            partialUpdateUser.setUserName(users.getUserName());
+        }
+        if (users.getUserLastName() != null) {
+            partialUpdateUser.setUserLastName(users.getUserLastName());
+        }
+        if (users.getEmail() != null) {
+            partialUpdateUser.setEmail(users.getEmail());
+        }
+        if (users.getPassword() != null) {
+            partialUpdateUser.setPassword(users.getPassword());
+        }
+        if (users.getCreateAcounteDate() != null) {
+            partialUpdateUser.setCreateAcounteDate(users.getCreateAcounteDate());
+        }
+        User updUser = userService.updateUserById(documentId, partialUpdateUser);
+        return new ResponseEntity<>(updUser, HttpStatus.OK);
+    }
+
+    // Update user rol by Id
+    @PutMapping ("/rol/{documentId}")
+    public ResponseEntity<User> updateRole(@PathVariable String documentId, @RequestBody User_role roleId) {
+        User updateUser = userService.updateUserRol(documentId, roleId);
+        return new ResponseEntity<>(updateUser, HttpStatus.OK);
+    }
+
 }
