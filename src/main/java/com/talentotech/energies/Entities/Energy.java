@@ -13,10 +13,10 @@ public class Energy {
     @Column(nullable = false)
     private String energy_name;
 
-    @OneToMany(mappedBy = "energy type", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "energy", cascade = CascadeType.REMOVE)
     private List<Energy_produced> energyProduced;
 
-    @OneToMany(mappedBy = "energy type", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "energy", cascade = CascadeType.REMOVE)
     private List<Energy_consumed> energyConsumed;
 
     public Energy() {
