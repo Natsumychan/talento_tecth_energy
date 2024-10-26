@@ -2,6 +2,8 @@ package com.talentotech.energies.Entities;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 public class Country {
 
@@ -14,6 +16,12 @@ public class Country {
 
     @Column(nullable = false)
     private  String continent_name;
+
+    @OneToMany(mappedBy = "country", cascade = CascadeType.REMOVE)
+    private List<Energy_produced> energyProduced;
+
+    @OneToMany(mappedBy = "country", cascade = CascadeType.REMOVE)
+    private List<Energy_consumed> energyConsumed;
 
     public Country() {
     }

@@ -17,7 +17,7 @@ public class Energy_produced {
     private Country country;
 
     @ManyToOne(targetEntity = Energy.class)
-    @JoinColumn(name= "Energy type")
+    @JoinColumn(name= "energy type")
     private Energy energy;
 
     @Column(precision = 30, scale = 5, nullable = false)
