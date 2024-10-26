@@ -1,33 +1,57 @@
 package com.talentotech.energies.Entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
+
 import java.util.Date;
 
+@Entity
+@Table(name = "usuarios")
 public class User {
+
     //Atributes
-    private int userId;
+
+    @Id
+    private String documentId;
+
+    @Column(nullable = false, length = 100)
     private String userName;
+
+    @Column(nullable = false, length = 100)
     private String userLastName;
+
+    @Column(nullable = false, unique = true)
     private String email;
+
+    @Column(nullable = false)
     private String password;
-    private String userRole;
+
+    @ManyToOne(targetEntity = User_role.class)
+    @JoinColumn(name="rol_usuario")
+    @JsonIgnore
+    private User_role roleId;
+
     private Date createAcounteDate;
 
-    public User(int userId, String userName, String userLastName, String email, String password, String userRole, Date createAcounteDate) {
-        this.userId = userId;
+    public User() {
+    }
+
+    public User(String documentId, String userName, String userLastName, String email, String password, User_role roleId, Date createAcounteDate) {
+        this.documentId = documentId;
         this.userName = userName;
         this.userLastName = userLastName;
         this.email = email;
         this.password = password;
-        this.userRole = userRole;
+        this.roleId = roleId;
         this.createAcounteDate = createAcounteDate;
     }
 
-    public int getUserId() {
-        return userId;
+    public String getDocumentId() {
+        return documentId;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setDocumentId(String documentId) {
+        this.documentId = documentId;
     }
 
     public String getUserName() {
@@ -62,12 +86,12 @@ public class User {
         this.password = password;
     }
 
-    public String getUserRole() {
-        return userRole;
+    public User_role getRoleId() {
+        return roleId;
     }
 
-    public void setUserRole(String userRole) {
-        this.userRole = userRole;
+    public void setRoleId(User_role roleId) {
+        this.roleId = roleId;
     }
 
     public Date getCreateAcounteDate() {
@@ -81,12 +105,12 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-                "userId=" + userId +
+                "userId=" + documentId +
                 ", userName='" + userName + '\'' +
                 ", userLastName='" + userLastName + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
-                ", userRole='" + userRole + '\'' +
+                ", userRole='" + roleId + '\'' +
                 ", createAcounteDate=" + createAcounteDate +
                 '}';
     }
