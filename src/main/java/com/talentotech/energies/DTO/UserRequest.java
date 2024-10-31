@@ -8,6 +8,7 @@ public class UserRequest {
     private int role;
     private User users;
 
+    public UserRequest() { }
 
     public int getRole() {
         return role;

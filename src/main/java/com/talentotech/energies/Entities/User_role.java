@@ -1,5 +1,7 @@
 package com.talentotech.energies.Entities;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.talentotech.energies.Entities.enums.UserRol;
 import jakarta.persistence.*;
 
@@ -7,6 +9,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "rol_usuarios")
+//@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "rol_usuario")
 public class User_role {
 
     @Id

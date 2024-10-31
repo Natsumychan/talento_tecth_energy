@@ -1,12 +1,17 @@
 package com.talentotech.energies.Entities;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
 import java.util.Date;
+
 
 @Entity
 @Table(name = "usuarios")
+//@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "rol_usuario")
 public class User {
 
     //Atributes
@@ -28,15 +33,14 @@ public class User {
 
     @ManyToOne(targetEntity = User_role.class)
     @JoinColumn(name="rol_usuario")
-    @JsonIgnore
     private User_role roleId;
 
-    private Date createAcounteDate;
+    private LocalDate createAcounteDate;
 
     public User() {
     }
 
-    public User(String documentId, String userName, String userLastName, String email, String password, User_role roleId, Date createAcounteDate) {
+    public User(String documentId, String userName, String userLastName, String email, String password, User_role roleId, LocalDate createAcounteDate) {
         this.documentId = documentId;
         this.userName = userName;
         this.userLastName = userLastName;
@@ -94,11 +98,11 @@ public class User {
         this.roleId = roleId;
     }
 
-    public Date getCreateAcounteDate() {
+    public LocalDate getCreateAcounteDate() {
         return createAcounteDate;
     }
 
-    public void setCreateAcounteDate(Date createAcounteDate) {
+    public void setCreateAcounteDate(LocalDate createAcounteDate) {
         this.createAcounteDate = createAcounteDate;
     }
 
