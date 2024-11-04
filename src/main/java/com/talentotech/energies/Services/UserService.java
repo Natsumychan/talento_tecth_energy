@@ -5,7 +5,6 @@ import com.talentotech.energies.Entities.User;
 import com.talentotech.energies.Entities.User_role;
 import com.talentotech.energies.Repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,6 +15,9 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private UserRoleService userRoleService;
 
     // Get all users
     public List<User> getAllUsers() {
@@ -52,25 +54,37 @@ public class UserService {
     }
 
     // Update user by documentId
-    public User updateUserById(String documentId, User updateUser) {
+    public User updateUserById(String documentId, User user) {
 
         // Check if user exists
         return userRepository.findById(documentId).map(existingUser ->{
-            // if exists update user
-            if(updateUser.getUserName() != null) {
-                existingUser.setUserName(updateUser.getUserName());
+
+            if(user.getDocumentId() != null) {
+                existingUser.setDocumentId(user.getDocumentId());
             }
-            if(updateUser.getUserLastName() != null) {
-                existingUser.setUserLastName(updateUser.getUserLastName());
+            if(user.getUserName() != null) {
+                existingUser.setUserName(user.getUserName());
             }
-            if(updateUser.getEmail() != null) {
-                existingUser.setEmail(updateUser.getEmail());
+            if(user.getUserLastName() != null) {
+                existingUser.setUserLastName(user.getUserLastName());
             }
-            if(updateUser.getPassword() != null) {
-                existingUser.setPassword(updateUser.getPassword());
+            if(user.getEmail() != null) {
+                existingUser.setEmail(user.getEmail());
             }
-            if(updateUser.getCreateAcounteDate() != null) {
-                existingUser.setCreateAcounteDate(updateUser.getCreateAcounteDate());
+            if(user.getPassword() != null) {
+                existingUser.setPassword(user.getPassword());
+            }
+            if(user.getCreateAcounteDate() != null) {
+                existingUser.setCreateAcounteDate(user.getCreateAcounteDate());
+            }
+
+            if (user.getRoleId() != null) {
+                Optional<User_role> newRole = userRoleService.getUserRoleById(user.getRoleId().getRole());
+                if (newRole.isPresent()) {
+                    existingUser.setRoleId(newRole.get());
+                } else {
+                    throw new RuntimeException("Role with ID " + user.getRoleId().getRole() + " not found");
+                }
             }
 
             // Save the update user
@@ -88,5 +102,17 @@ public class UserService {
         } else {
             throw new RuntimeException("User not found with id" + documentId);
         }
+    }
+
+    // Metodo login de usuario
+    public User loginUser (String documentId, String password) {
+        Optional<User> userOptional = userRepository.findById(documentId);
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            if (user.getPassword().equals(password)) {
+                return user;
+            }
+        }
+        throw new RuntimeException("Documento o contraseña incorreta");
     }
 }

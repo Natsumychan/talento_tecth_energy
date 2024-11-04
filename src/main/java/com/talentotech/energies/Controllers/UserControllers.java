@@ -12,8 +12,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
+@CrossOrigin(origins = "http://localhost:4200/")
 @RestController
 @RequestMapping("/user")
 public class UserControllers {
@@ -63,32 +65,56 @@ public class UserControllers {
 
     // Update user by Id
     @PutMapping ("/{documentId}")
-    public ResponseEntity<User> updateUser(@PathVariable String documentId, @RequestBody User users) {
+    public ResponseEntity<User> updateUser(
+            @PathVariable String documentId,
+            @RequestBody UserRequest userRequest
+    ) {
+        Integer roleId = userRequest.getRole();
+        Optional<User_role> newRole = userRoleService.getUserRoleById(roleId);
+        if (newRole.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        User user = userRequest.getUsers();
+        if (!user.getDocumentId().equals(documentId)) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
         User partialUpdateUser = new User();
-        if (users.getUserName() != null) {
-            partialUpdateUser.setUserName(users.getUserName());
+        if (user.getUserName() != null) {
+            partialUpdateUser.setUserName(user.getUserName());
         }
-        if (users.getUserLastName() != null) {
-            partialUpdateUser.setUserLastName(users.getUserLastName());
+        if (user.getUserLastName() != null) {
+            partialUpdateUser.setUserLastName(user.getUserLastName());
         }
-        if (users.getEmail() != null) {
-            partialUpdateUser.setEmail(users.getEmail());
+        if (user.getEmail() != null) {
+            partialUpdateUser.setEmail(user.getEmail());
         }
-        if (users.getPassword() != null) {
-            partialUpdateUser.setPassword(users.getPassword());
+        if (user.getPassword() != null) {
+            partialUpdateUser.setPassword(user.getPassword());
         }
-        if (users.getCreateAcounteDate() != null) {
-            partialUpdateUser.setCreateAcounteDate(users.getCreateAcounteDate());
+        if (user.getCreateAcounteDate() != null) {
+            partialUpdateUser.setCreateAcounteDate(user.getCreateAcounteDate());
         }
-        User updUser = userService.updateUserById(documentId, partialUpdateUser);
-        return new ResponseEntity<>(updUser, HttpStatus.OK);
+
+        partialUpdateUser.setRoleId(newRole.get());
+
+        User updateUser = userService.updateUserById(documentId, partialUpdateUser);
+        return new ResponseEntity<>(updateUser, HttpStatus.OK);
     }
 
-    // Update user rol by Id
-    @PutMapping ("/rol/{documentId}")
-    public ResponseEntity<User> updateRole(@PathVariable String documentId, @RequestBody User_role roleId) {
-        User updateUser = userService.updateUserRol(documentId, roleId);
-        return new ResponseEntity<>(updateUser, HttpStatus.OK);
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody Map<String, String> loginRequest) {
+        String documentId = loginRequest.get("documentId");
+        String password = loginRequest.get("password");
+
+        try {
+            User user = userService.loginUser(documentId, password);
+            // Generar token u otra respuesta si es necesario
+            return new ResponseEntity<>(user, HttpStatus.OK);
+        } catch (RuntimeException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
+        }
     }
 
 }
