@@ -74,6 +74,11 @@ public class EnergyProducedControllers {
         return new ResponseEntity<>(energyProducedList,  HttpStatus.OK);
     }
 
+    @GetMapping("/totalSummary")
+    public List<Object[]> getAggregatedEnergyData() {
+        return energyProduceService.getTotalEnergyProducedByCountryAndYear();
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<Energy_produced> updateEnergyProduced(@PathVariable("id") int productionId, @RequestBody EnergyProduceRequest energyProducedRequest) {
         Energy_produced updatedEnergyProduced = energyProduceService.updateEnergyProduced(productionId, energyProducedRequest);

@@ -31,4 +31,10 @@ public interface EnergyProduceRepository extends JpaRepository<Energy_produced, 
     @Query("SELECT e FROM Energy_produced e WHERE e.quantity_produced > :quantity")
     List<Energy_produced> findByQuantityProducedGreaterThan(@Param("quantity") BigDecimal quantity);
 
+    @Query("SELECT ep.production_date, ep.country.country_name, SUM(ep.quantity_produced) " +
+            "FROM Energy_produced ep " +
+            "GROUP BY ep.production_date, ep.country.country_name " +
+            "ORDER BY ep.production_date ASC, ep.country.country_name ASC")
+    List<Object[]> sumEnergyProducedByCountryAndDate();
+
 }

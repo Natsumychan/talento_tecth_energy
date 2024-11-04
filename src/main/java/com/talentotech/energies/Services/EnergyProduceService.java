@@ -103,6 +103,10 @@ public class EnergyProduceService {
         return energyProduceRepository.save(existingEnergyProduced);
     }
 
+    public List<Object[]> getTotalEnergyProducedByCountryAndYear() {
+        return energyProduceRepository.sumEnergyProducedByCountryAndDate();
+    }
+
     //Delete an energy produced
     public void deleteEnergyProduced(int id){
         energyProduceRepository.deleteById(id);
